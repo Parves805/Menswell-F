@@ -46,6 +46,12 @@ const defaultWebsiteSettings: WebsiteSettings = {
   homepageIntroTitle: 'Because comfort and confidence go hand in hand.',
   homepageIntroText: 'We focus on carefully selecting the best clothing that is comfortable, looks great, and makes you confident. Apart from the fabric, design and fit, we go through strict quality control parameters to give you what you truly deserve. The power of a good outfit is how it can influence your perception of yourself.',
   homepageIntroImageUrl: 'https://img.drz.lazcdn.com/g/p/mdc/d08e501aee3431a41857876ab4646a5a.jpg_720x720q80.jpg',
+  socialLinks: {
+      facebook: '',
+      instagram: '',
+      youtube: '',
+      tiktok: '',
+  }
 };
 
 const defaultAiSettings: AiSettings = {
@@ -144,6 +150,16 @@ export default function AdminSettingsPage() {
 
     const handleSettingChange = (field: keyof WebsiteSettings, value: string) => {
         setSettings(prev => ({ ...prev, [field]: value }));
+    };
+
+    const handleSocialLinkChange = (platform: 'facebook' | 'instagram' | 'youtube' | 'tiktok', value: string) => {
+        setSettings(prev => ({
+            ...prev,
+            socialLinks: {
+                ...(prev.socialLinks || {}),
+                [platform]: value
+            }
+        }));
     };
 
     const handleAiSettingChange = (field: keyof AiSettings, value: boolean) => {
@@ -346,6 +362,51 @@ export default function AdminSettingsPage() {
                             value={settings.homepageIntroImageUrl || ''}
                             onChange={(e) => handleSettingChange('homepageIntroImageUrl', e.target.value)}
                             placeholder="https://example.com/intro-image.png"
+                        />
+                    </div>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Social Media Links</CardTitle>
+                    <CardDescription>Enter the full URLs for your social media profiles.</CardDescription>
+                </CardHeader>
+                <CardContent className="grid gap-6">
+                    <div className="grid gap-2">
+                        <Label htmlFor="socialFacebook">Facebook URL</Label>
+                        <Input
+                            id="socialFacebook"
+                            value={settings.socialLinks?.facebook || ''}
+                            onChange={(e) => handleSocialLinkChange('facebook', e.target.value)}
+                            placeholder="https://facebook.com/yourpage"
+                        />
+                    </div>
+                     <div className="grid gap-2">
+                        <Label htmlFor="socialInstagram">Instagram URL</Label>
+                        <Input
+                            id="socialInstagram"
+                            value={settings.socialLinks?.instagram || ''}
+                            onChange={(e) => handleSocialLinkChange('instagram', e.target.value)}
+                            placeholder="https://instagram.com/yourprofile"
+                        />
+                    </div>
+                     <div className="grid gap-2">
+                        <Label htmlFor="socialYoutube">YouTube URL</Label>
+                        <Input
+                            id="socialYoutube"
+                            value={settings.socialLinks?.youtube || ''}
+                            onChange={(e) => handleSocialLinkChange('youtube', e.target.value)}
+                            placeholder="https://youtube.com/yourchannel"
+                        />
+                    </div>
+                    <div className="grid gap-2">
+                        <Label htmlFor="socialTiktok">TikTok URL</Label>
+                        <Input
+                            id="socialTiktok"
+                            value={settings.socialLinks?.tiktok || ''}
+                            onChange={(e) => handleSocialLinkChange('tiktok', e.target.value)}
+                            placeholder="https://tiktok.com/@yourprofile"
                         />
                     </div>
                 </CardContent>

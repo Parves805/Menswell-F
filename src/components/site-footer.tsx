@@ -1,7 +1,7 @@
 
 'use client';
 
-import { ShoppingBag } from 'lucide-react';
+import { ShoppingBag, Facebook, Instagram, Youtube, Music4 } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import type { Category, WebsiteSettings } from '@/lib/types';
@@ -55,6 +55,32 @@ export function SiteFooter() {
                 )}
             </Link>
             <p className="text-sm opacity-80">{settings.tagline || 'Your one-stop online marketplace.'}</p>
+             <div className="flex space-x-4 mt-6">
+                {settings.socialLinks?.facebook && (
+                    <a href={settings.socialLinks.facebook} target="_blank" rel="noopener noreferrer" className="text-primary-foreground/80 hover:text-primary-foreground">
+                        <Facebook className="h-6 w-6" />
+                        <span className="sr-only">Facebook</span>
+                    </a>
+                )}
+                {settings.socialLinks?.instagram && (
+                    <a href={settings.socialLinks.instagram} target="_blank" rel="noopener noreferrer" className="text-primary-foreground/80 hover:text-primary-foreground">
+                        <Instagram className="h-6 w-6" />
+                        <span className="sr-only">Instagram</span>
+                    </a>
+                )}
+                {settings.socialLinks?.youtube && (
+                    <a href={settings.socialLinks.youtube} target="_blank" rel="noopener noreferrer" className="text-primary-foreground/80 hover:text-primary-foreground">
+                        <Youtube className="h-6 w-6" />
+                        <span className="sr-only">YouTube</span>
+                    </a>
+                )}
+                {settings.socialLinks?.tiktok && (
+                    <a href={settings.socialLinks.tiktok} target="_blank" rel="noopener noreferrer" className="text-primary-foreground/80 hover:text-primary-foreground">
+                        <Music4 className="h-6 w-6" />
+                        <span className="sr-only">TikTok</span>
+                    </a>
+                )}
+            </div>
           </div>
           <div>
             <h4 className="font-semibold mb-3 font-headline">Shop</h4>

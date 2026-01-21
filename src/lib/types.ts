@@ -96,6 +96,12 @@ export interface WebsiteSettings {
   homepageIntroTitle?: string;
   homepageIntroText?: string;
   homepageIntroImageUrl?: string;
+  socialLinks?: {
+    facebook?: string;
+    instagram?: string;
+    youtube?: string;
+    tiktok?: string;
+  };
 }
 
 export interface AboutUsSettings {
