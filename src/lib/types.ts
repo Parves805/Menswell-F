@@ -93,6 +93,9 @@ export interface WebsiteSettings {
   contactPhone: string;
   address: string;
   shippingRates: ShippingRate[];
+  homepageIntroTitle?: string;
+  homepageIntroText?: string;
+  homepageIntroImageUrl?: string;
 }
 
 export interface AboutUsSettings {

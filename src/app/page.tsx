@@ -34,6 +34,7 @@ export default function Home() {
   const [homepageSections, setHomepageSections] = React.useState<HomepageSectionType[]>([]);
   const [promoSections, setPromoSections] = React.useState<PromoSection[]>([]);
   const [testimonialsSettings, setTestimonialsSettings] = React.useState<TestimonialsSettings>({ enabled: true, testimonials: [] });
+  const [websiteSettings, setWebsiteSettings] = React.useState<Partial<WebsiteSettings>>({});
   const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -54,6 +55,7 @@ export default function Home() {
             setHomepageSections(settings.homepageSections || []);
             setPromoSections(settings.promoCardSections || []);
             setTestimonialsSettings(settings.testimonialsSettings || { enabled: true, testimonials: [] });
+            setWebsiteSettings(settings.websiteSettings || {});
             
             const campaign = settings.popupCampaign;
             if (campaign) {
@@ -190,6 +192,29 @@ export default function Home() {
           </div>
         </section>
         
+        {/* Homepage Intro Section */}
+        {websiteSettings.homepageIntroTitle && websiteSettings.homepageIntroText && websiteSettings.homepageIntroImageUrl && (
+          <section className="py-12 md:py-20 bg-card">
+            <div className="container">
+              <div className="grid md:grid-cols-2 gap-12 items-center">
+                <div className="space-y-4 md:text-left">
+                  <h2 className="text-3xl font-bold font-headline">{websiteSettings.homepageIntroTitle}</h2>
+                  <p className="text-muted-foreground leading-relaxed">{websiteSettings.homepageIntroText}</p>
+                </div>
+                <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
+                  <Image
+                    src={websiteSettings.homepageIntroImageUrl}
+                    alt={websiteSettings.homepageIntroTitle}
+                    fill
+                    className="object-cover"
+                    data-ai-hint="clothing fabric swatch"
+                  />
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* Recent Products Section */}
         {recentProducts.length > 0 && (
           <section className="py-12 md:py-20">

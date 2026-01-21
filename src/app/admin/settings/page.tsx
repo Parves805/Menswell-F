@@ -43,6 +43,9 @@ const defaultWebsiteSettings: WebsiteSettings = {
   contactPhone: '01617574456',
   address: 'Road-21, Sector-11, Uttara, Dhaka, Bangladesh',
   shippingRates: [],
+  homepageIntroTitle: 'Because comfort and confidence go hand in hand.',
+  homepageIntroText: 'We focus on carefully selecting the best clothing that is comfortable, looks great, and makes you confident. Apart from the fabric, design and fit, we go through strict quality control parameters to give you what you truly deserve. The power of a good outfit is how it can influence your perception of yourself.',
+  homepageIntroImageUrl: 'https://img.drz.lazcdn.com/g/p/mdc/d08e501aee3431a41857876ab4646a5a.jpg_720x720q80.jpg',
 };
 
 const defaultAiSettings: AiSettings = {
@@ -306,6 +309,43 @@ export default function AdminSettingsPage() {
                             onChange={(e) => handleSettingChange('address', e.target.value)}
                             placeholder="123 Bazaar Street, Dhaka, Bangladesh"
                             rows={3}
+                        />
+                    </div>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Homepage Introduction</CardTitle>
+                    <CardDescription>Set the introductory text and image for your homepage.</CardDescription>
+                </CardHeader>
+                <CardContent className="grid gap-6">
+                    <div className="grid gap-2">
+                        <Label htmlFor="homepageIntroTitle">Intro Title</Label>
+                        <Input
+                            id="homepageIntroTitle"
+                            value={settings.homepageIntroTitle || ''}
+                            onChange={(e) => handleSettingChange('homepageIntroTitle', e.target.value)}
+                            placeholder="e.g., Welcome to our store"
+                        />
+                    </div>
+                    <div className="grid gap-2">
+                        <Label htmlFor="homepageIntroText">Intro Text</Label>
+                        <Textarea
+                            id="homepageIntroText"
+                            value={settings.homepageIntroText || ''}
+                            onChange={(e) => handleSettingChange('homepageIntroText', e.target.value)}
+                            placeholder="A short paragraph introducing your brand."
+                            rows={4}
+                        />
+                    </div>
+                    <div className="grid gap-2">
+                        <Label htmlFor="homepageIntroImageUrl">Intro Image URL</Label>
+                        <Input
+                            id="homepageIntroImageUrl"
+                            value={settings.homepageIntroImageUrl || ''}
+                            onChange={(e) => handleSettingChange('homepageIntroImageUrl', e.target.value)}
+                            placeholder="https://example.com/intro-image.png"
                         />
                     </div>
                 </CardContent>
