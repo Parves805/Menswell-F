@@ -80,6 +80,7 @@ export default function AdminLayout({
     '/admin/seo',
     '/admin/shipping',
     '/admin/users',
+    '/admin/tracking',
   ].some(p => pathname.startsWith(p));
 
   const areMarketingActive = [
@@ -383,6 +384,11 @@ export default function AdminLayout({
                     <Link href="/admin/seo">SEO Management</Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
+                 <SidebarMenuItem>
+                  <SidebarMenuButton asChild isActive={isActive('/admin/tracking')}>
+                    <Link href="/admin/tracking">Tracking & Pixels</Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
             </SidebarMenu>
           </CollapsibleContent>
         </SidebarMenuItem>
@@ -397,7 +403,7 @@ export default function AdminLayout({
         <Sidebar>
           <SidebarHeader>
             <div className="flex items-center gap-2 p-2">
-              <Image src="https://menswell.stapler.studio/uploads/1763734414_c2738fc124cf4ebc.png" alt="Logo" width={24} height={24} />
+              <Image src="https://menswell.stapler.studio/uploads/1763750195_1ae788c4ce3bb6d4.png" alt="Logo" width={24} height={24} />
               <h1 className="text-xl font-bold font-headline">Admin Panel</h1>
             </div>
           </SidebarHeader>
@@ -436,7 +442,7 @@ export default function AdminLayout({
                         <SheetHeader className="p-4 border-b">
                             <SheetTitle className="text-left sr-only">Admin Menu</SheetTitle>
                                 <Link href="/" className="inline-flex items-center space-x-2">
-                                    <Image src="https://menswell.stapler.studio/uploads/1763734414_c2738fc124cf4ebc.png" alt="Logo" width={24} height={24} />
+                                    <Image src="https://menswell.stapler.studio/uploads/1763750195_1ae788c4ce3bb6d4.png" alt="Logo" width={24} height={24} />
                                     <span className="font-bold font-headline">Admin Panel</span>
                                 </Link>
                         </SheetHeader>

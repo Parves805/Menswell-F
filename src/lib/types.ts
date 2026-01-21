@@ -188,4 +188,8 @@ export interface Slide {
   link?: string;
 }
 
+export interface TrackingSettings {
+  gtmId?: string;
+  metaPixelId?: string;
+}
     

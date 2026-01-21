@@ -11,9 +11,10 @@ import { ThemeProvider } from '@/components/theme-provider';
 import Script from 'next/script';
 import { doc, getDoc } from 'firebase/firestore';
 import { firestore } from '@/lib/firebase';
+import type { WebsiteSettings, TrackingSettings } from '@/lib/types';
 
-// This function can be used to fetch settings on the server
-async function getWebsiteSettings() {
+
+async function getWebsiteSettings(): Promise<WebsiteSettings | null> {
     try {
         if (!firestore) return null;
         const settingsDoc = await getDoc(doc(firestore, "settings", "store"));
@@ -27,7 +28,21 @@ async function getWebsiteSettings() {
     }
 }
 
-// Generate metadata dynamically
+async function getTrackingSettings(): Promise<TrackingSettings | null> {
+    try {
+        if (!firestore) return null;
+        const settingsDoc = await getDoc(doc(firestore, "settings", "store"));
+        if (settingsDoc.exists()) {
+            return settingsDoc.data().trackingSettings || null;
+        }
+        return null;
+    } catch (error) {
+        console.error("Error fetching tracking settings for layout:", error);
+        return null;
+    }
+}
+
+
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getWebsiteSettings();
   const storeName = settings?.storeName || 'Menswell';
@@ -46,11 +61,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const trackingSettings = await getTrackingSettings();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -59,54 +76,64 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"></link>
         
         {/* Google Tag Manager */}
-        <Script
-          id="gtm-script"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        {trackingSettings?.gtmId && (
+            <Script
+              id="gtm-script"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-KTVBFBK2');`
-          }}
-        />
+})(window,document,'script','dataLayer','${trackingSettings.gtmId}');`
+              }}
+            />
+        )}
         {/* End Google Tag Manager */}
 
         {/* Meta Pixel Code */}
-        <Script
-          id="fb-pixel"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              !function(f,b,e,v,n,t,s)
-              {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-              n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-              if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-              n.queue=[];t=b.createElement(e);t.async=!0;
-              t.src=v;s=b.getElementsByTagName(e)[0];
-              s.parentNode.insertBefore(t,s)}(window, document,'script',
-              'https://connect.facebook.net/en_US/fbevents.js');
-              fbq('init', 'YOUR_PIXEL_ID');
-              fbq('track', 'PageView');
-            `,
-          }}
-        />
-        <noscript>
-          <img
-            height="1"
-            width="1"
-            style={{ display: 'none' }}
-            src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"
-          />
-        </noscript>
+        {trackingSettings?.metaPixelId && (
+            <Script
+              id="fb-pixel"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `
+                  !function(f,b,e,v,n,t,s)
+                  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+                  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+                  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+                  n.queue=[];t=b.createElement(e);t.async=!0;
+                  t.src=v;s=b.getElementsByTagName(e)[0];
+                  s.parentNode.insertBefore(t,s)}(window, document,'script',
+                  'https://connect.facebook.net/en_US/fbevents.js');
+                  fbq('init', '${trackingSettings.metaPixelId}');
+                  fbq('track', 'PageView');
+                `,
+              }}
+            />
+        )}
         {/* End Meta Pixel Code */}
 
       </head>
       <body className="font-body antialiased" suppressHydrationWarning>
         {/* Google Tag Manager (noscript) */}
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KTVBFBK2"
-        height="0" width="0" style={{display:'none',visibility:'hidden'}}></iframe></noscript>
+        {trackingSettings?.gtmId && (
+            <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${trackingSettings.gtmId}`}
+            height="0" width="0" style={{display:'none',visibility:'hidden'}}></iframe></noscript>
+        )}
         {/* End Google Tag Manager (noscript) */}
+        
+        {/* Meta Pixel (noscript) */}
+        {trackingSettings?.metaPixelId && (
+            <noscript>
+              <img
+                height="1"
+                width="1"
+                style={{ display: 'none' }}
+                src={`https://www.facebook.com/tr?id=${trackingSettings.metaPixelId}&ev=PageView&noscript=1`}
+              />
+            </noscript>
+        )}
 
         <ThemeProvider>
             <WishlistProvider>
