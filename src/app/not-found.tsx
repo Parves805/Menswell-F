@@ -1,4 +1,3 @@
-
 'use client';
 
 import { SiteHeader } from '@/components/site-header';
@@ -19,7 +18,7 @@ export default function NotFound() {
             <h2 className="text-2xl md:text-3xl font-semibold mt-2">Page Not Found</h2>
           </div>
           <p className="max-w-md mx-auto text-muted-foreground">
-            Oops! The page you are looking for does not exist. It might have been moved or deleted.
+            চলুন, আবার Menswell-এর দুনিয়ায় ফিরে যাই।
           </p>
           <Button asChild size="lg" className="mt-4">
             <Link href="/">
